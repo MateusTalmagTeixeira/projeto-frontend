@@ -39,6 +39,17 @@ export function CartProvider({ children }) {
     setIsCartOpen(true);
   };
 
+  const updateQuantity = (index, newQty) => {
+    setCart((prev) => {
+      if (newQty <= 0) {
+        return prev.filter((_, i) => i !== index);
+      }
+      const updated = [...prev];
+      updated[index].quantity = newQty;
+      return updated;
+    });
+  };
+
   const removeFromCart = (index) => {
     setCart((prev) => prev.filter((_, i) => i !== index));
   };
@@ -53,6 +64,7 @@ export function CartProvider({ children }) {
       value={{
         cart,
         addToCart,
+        updateQuantity,
         removeFromCart,
         clearCart,
         totalItems,
