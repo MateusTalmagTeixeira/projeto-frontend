@@ -11,43 +11,43 @@ export default function ProductCard({ product }) {
 
   return (
     <>
-      <div className="group relative bg-white rounded-2xl shadow-xs p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-gray-100">
+      <div className="group relative bg-white rounded-2xl shadow-xs p-5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl border border-gray-100">
         <div>
-          <Link to={`/produto/${product.id}`} className="block relative aspect-square bg-[#F8F8FA] rounded-xl flex items-center justify-center overflow-hidden mb-4">
+          <Link to={`/produto/${product.id}`} className="block relative aspect-square bg-[#F7F7F9] rounded-xl flex items-center justify-center overflow-hidden mb-4 p-4">
             {product.discountTag && (
-              <span className="absolute top-3 left-3 bg-[#E7FF86] text-[#474747] text-xs font-bold px-2.5 py-1 rounded-full uppercase z-10 shadow-xs">
+              <span className="absolute top-3 left-3 bg-[#E7FF86] text-[#1F1F1F] text-[11px] font-extrabold px-2.5 py-1 rounded-md uppercase z-10 shadow-xs tracking-wide">
                 {product.discountTag}
               </span>
             )}
             <img
               src={product.images[0]}
               alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
             />
           </Link>
         </div>
 
-        <div className="space-y-2">
-          <span className="text-xs font-bold text-[#8F8F8F] uppercase tracking-wider">{product.category}</span>
+        <div className="space-y-2.5">
+          <span className="text-[11px] font-bold text-[#8F8F8F] uppercase tracking-widest">{product.category}</span>
           <Link to={`/produto/${product.id}`} className="block">
-            <h3 className="text-sm sm:text-base text-[#474747] font-medium line-clamp-1 group-hover:text-[#C92071] transition-colors">
+            <h3 className="text-sm font-semibold text-[#1F1F1F] line-clamp-1 group-hover:text-[#C92071] transition-colors">
               {product.name}
             </h3>
           </Link>
 
-          <div className="flex items-center justify-between pt-2">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between pt-1">
+            <div className="flex flex-col">
               {product.priceDiscount ? (
                 <>
-                  <span className="text-xs text-[#8F8F8F] line-through">
+                  <span className="text-[11px] text-[#8F8F8F] line-through font-medium">
                     {formatPrice(product.price)}
                   </span>
-                  <span className="text-sm sm:text-base text-[#1F1F1F] font-bold">
+                  <span className="text-base text-[#1F1F1F] font-black">
                     {formatPrice(product.priceDiscount)}
                   </span>
                 </>
               ) : (
-                <span className="text-sm sm:text-base text-[#1F1F1F] font-bold">
+                <span className="text-base text-[#1F1F1F] font-black">
                   {formatPrice(product.price)}
                 </span>
               )}
@@ -55,9 +55,9 @@ export default function ProductCard({ product }) {
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className="bg-[#C92071] hover:bg-[#991956] text-white p-2.5 rounded-xl shadow-sm transition-colors cursor-pointer"
-              title="Escolher opções e adicionar"
-              aria-label="Escolher opções e adicionar"
+              className="bg-[#1F1F1F] hover:bg-[#C92071] text-white p-3 rounded-xl shadow-md transition-all duration-300 cursor-pointer flex items-center justify-center group-hover:scale-105"
+              title="Adicionar ao carrinho"
+              aria-label="Adicionar ao carrinho"
             >
               <ShoppingCart size={18} />
             </button>

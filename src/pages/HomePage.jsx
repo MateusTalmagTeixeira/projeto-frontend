@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { ArrowRight, Sparkles, ShieldCheck, Truck, Headphones } from 'lucide-react';
+import { ArrowRight, Sparkles, ShieldCheck, Truck, Headphones, Tag } from 'lucide-react';
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -9,23 +9,25 @@ export default function HomePage() {
 
   const slides = [
     {
-      tag: 'Coleção Exclusiva 2026',
-      title: 'Streetwear & Sneakers 🍂',
-      description: 'As melhores tendências de moda urbana e calçados com design moderno e frete grátis.',
-      image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=700&q=80',
+      tag: 'Coleção Outono/Inverno',
+      title: 'Descontos imperdíveis em Sneakers',
+      description: 'As melhores marcas globais de streetwear com até 30% de desconto e frete grátis.',
+      image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80',
+      badge: 'Até 30% OFF'
     },
     {
-      tag: 'Lançamentos Especiais',
-      title: 'Estilo e Conforto para o Dia a Dia',
-      description: 'Renove o seu visual com peças selecionadas com alto padrão de qualidade.',
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80',
+      tag: 'Lançamentos Exclusivos',
+      title: 'O novo padrão de estilo urbano',
+      description: 'Conforto, durabilidade e sofisticação para compor o seu visual em qualquer ocasião.',
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
+      badge: 'Lançamento 2026'
     },
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(timer);
   }, [slides.length]);
 
@@ -60,7 +62,7 @@ export default function HomePage() {
         price: 159.90,
         priceDiscount: 119.90,
         discountTag: '25% OFF',
-        images: ['https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80'],
+        images: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80'],
         sizes: ['P', 'M', 'G', 'GG'],
         colors: ['#FFFFFF', '#1F1F1F', '#B5B6F2']
       },
@@ -79,78 +81,84 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="space-y-12 pb-16">
-      {/* Carrossel / Banner Principal */}
-      <section className="bg-gradient-to-r from-[#F5F5F7] to-[#E8E8ED] py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[380px]">
-          <div className="space-y-4 animate-in fade-in duration-500">
-            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#F6AA1C] uppercase tracking-wider bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-              <Sparkles size={14} /> {slides[currentSlide].tag}
+    <div className="space-y-16 pb-20">
+      {/* Banner Principal Estilo E-commerce de Griffe */}
+      <section className="relative bg-[#1F1F1F] text-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+          <div className="space-y-6">
+            <span className="inline-flex items-center gap-2 bg-[#C92071] text-white text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-md shadow-sm">
+              <Tag size={14} /> {slides[currentSlide].badge}
             </span>
-            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#1F1F1F] leading-tight">
+            <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none">
               {slides[currentSlide].title}
             </h1>
-            <p className="text-sm sm:text-base text-[#474747]">
+            <p className="text-base sm:text-lg text-gray-300 max-w-lg font-light">
               {slides[currentSlide].description}
             </p>
-            <div className="pt-2">
+            <div className="pt-4 flex items-center gap-4">
               <Link
                 to="/produtos"
-                className="inline-flex items-center gap-2 bg-[#C92071] hover:bg-[#991956] text-white font-bold px-8 py-3.5 rounded-xl transition-colors shadow-md"
+                className="bg-[#C92071] hover:bg-[#991956] text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg flex items-center gap-2 group text-sm uppercase tracking-wider"
               >
-                Ver Coleção <ArrowRight size={18} />
+                Ver Coleção <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center relative">
+            <div className="absolute w-72 h-72 bg-[#C92071]/20 rounded-full blur-3xl -z-10" />
             <img
               src={slides[currentSlide].image}
-              alt="Banner Destaque"
-              className="max-h-[320px] rounded-2xl object-cover shadow-xl"
+              alt="Banner Vitrine"
+              className="max-h-[380px] w-full object-cover rounded-3xl shadow-2xl border border-white/10"
             />
           </div>
         </div>
 
-        {/* Indicadores de Slide */}
-        <div className="flex justify-center gap-2 mt-8">
+        {/* Indicadores do Carrossel */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
-              className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                currentSlide === idx ? 'w-8 bg-[#C92071]' : 'w-2.5 bg-gray-300'
+              className={`h-2 rounded-full transition-all cursor-pointer ${
+                currentSlide === idx ? 'w-10 bg-[#C92071]' : 'w-3 bg-white/30'
               }`}
-              aria-label={`Ir para slide ${idx + 1}`}
+              aria-label={`Slide ${idx + 1}`}
             />
           ))}
         </div>
       </section>
 
-      {/* Ícones de Benefícios */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { icon: <Truck className="text-[#C92071]" size={28} />, title: 'Frete Grátis', desc: 'Em compras acima de R$ 199' },
-          { icon: <ShieldCheck className="text-[#C92071]" size={28} />, title: 'Compra Segura', desc: 'Garantia de 100% de reembolso' },
-          { icon: <Sparkles className="text-[#C92071]" size={28} />, title: 'Produtos Originais', desc: 'Importados direto das marcas' },
-          { icon: <Headphones className="text-[#C92071]" size={28} />, title: 'Suporte 24/7', desc: 'Atendimento humanizado rápido' },
-        ].map((item, i) => (
-          <div key={i} className="bg-white p-6 rounded-xl shadow-xs flex items-center gap-4 border border-gray-100">
-            {item.icon}
-            <div>
-              <h4 className="font-bold text-sm text-[#1F1F1F]">{item.title}</h4>
-              <p className="text-xs text-[#8F8F8F]">{item.desc}</p>
+      {/* Ícones de Benefícios com Estilo Minimalista */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl p-8 shadow-xs border border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            { icon: <Truck className="text-[#C92071]" size={32} />, title: 'Frete Grátis', desc: 'Em compras acima de R$ 199' },
+            { icon: <ShieldCheck className="text-[#C92071]" size={32} />, title: 'Compra 100% Segura', desc: 'Ambiente criptografado e seguro' },
+            { icon: <Sparkles className="text-[#C92071]" size={32} />, title: 'Produtos Originais', desc: 'Garantia de fábrica e importados' },
+            { icon: <Headphones className="text-[#C92071]" size={32} />, title: 'Atendimento Especial', desc: 'Suporte rápido humanizado' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-4">
+              <div className="p-3 bg-gray-50 rounded-xl">{item.icon}</div>
+              <div>
+                <h4 className="font-bold text-sm text-[#1F1F1F] mb-0.5">{item.title}</h4>
+                <p className="text-xs text-[#8F8F8F]">{item.desc}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </section>
 
       {/* Produtos em Destaque */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1F1F1F]">Produtos em Destaque</h2>
-          <Link to="/produtos" className="text-sm font-semibold text-[#C92071] hover:underline flex items-center gap-1">
-            Ver todos <ArrowRight size={16} />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="flex items-end justify-between border-b border-gray-200 pb-4">
+          <div>
+            <span className="text-xs font-bold text-[#C92071] uppercase tracking-wider">Tendências</span>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#1F1F1F] tracking-tight">Produtos em Destaque</h2>
+          </div>
+          <Link to="/produtos" className="text-sm font-bold text-[#C92071] hover:underline flex items-center gap-1.5">
+            Ver catálogo completo <ArrowRight size={16} />
           </Link>
         </div>
 
