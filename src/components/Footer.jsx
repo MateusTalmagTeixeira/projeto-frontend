@@ -1,14 +1,16 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, CreditCard } from 'lucide-react';
 
 export default function Footer() {
+  const navigate = useNavigate();
+
   return (
     <footer className="bg-[#1F1F1F] text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
         
         {/* Coluna Sobre */}
         <div className="md:col-span-4 space-y-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
             <span className="bg-[#C92071] text-white p-1.5 rounded-lg font-black text-xl">
               D_S
             </span>
@@ -28,12 +30,12 @@ export default function Footer() {
         <div className="md:col-span-3 space-y-3">
           <h4 className="font-bold text-sm uppercase tracking-wider text-white">Informação</h4>
           <ul className="space-y-2 text-xs text-gray-400">
-            <li><Link to="/sobre" className="hover:text-white transition-colors">Sobre Drip Store</Link></li>
-            <li><Link to="/seguranca" className="hover:text-white transition-colors">Segurança</Link></li>
-            <li><Link to="/wishlist" className="hover:text-white transition-colors">Wishlist</Link></li>
-            <li><Link to="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-            <li><Link to="/trabalhe-conosco" className="hover:text-white transition-colors">Trabalhe conosco</Link></li>
-            <li><Link to="/pedidos" className="hover:text-white transition-colors">Meus Pedidos</Link></li>
+            <li><button onClick={() => navigate('/sobre')} className="hover:text-white transition-colors cursor-pointer text-left">Sobre Drip Store</button></li>
+            <li><button onClick={() => navigate('/seguranca')} className="hover:text-white transition-colors cursor-pointer text-left">Segurança</button></li>
+            <li><button onClick={() => navigate('/wishlist')} className="hover:text-white transition-colors cursor-pointer text-left">Wishlist</button></li>
+            <li><button onClick={() => navigate('/blog')} className="hover:text-white transition-colors cursor-pointer text-left">Blog</button></li>
+            <li><button onClick={() => navigate('/trabalhe-conosco')} className="hover:text-white transition-colors cursor-pointer text-left">Trabalhe conosco</button></li>
+            <li><button onClick={() => navigate('/pedidos')} className="hover:text-white transition-colors cursor-pointer text-left">Meus Pedidos</button></li>
           </ul>
         </div>
 
@@ -41,11 +43,11 @@ export default function Footer() {
         <div className="md:col-span-2 space-y-3">
           <h4 className="font-bold text-sm uppercase tracking-wider text-white">Categorias</h4>
           <ul className="space-y-2 text-xs text-gray-400">
-            <li><Link to="/produtos" className="hover:text-white transition-colors">Camisetas</Link></li>
-            <li><Link to="/produtos" className="hover:text-white transition-colors">Calças</Link></li>
-            <li><Link to="/produtos" className="hover:text-white transition-colors">Bonés</Link></li>
-            <li><Link to="/produtos" className="hover:text-white transition-colors">Headphones</Link></li>
-            <li><Link to="/produtos" className="hover:text-white transition-colors">Tênis</Link></li>
+            <li><button onClick={() => navigate('/produtos')} className="hover:text-white transition-colors cursor-pointer text-left">Camisetas</button></li>
+            <li><button onClick={() => navigate('/produtos')} className="hover:text-white transition-colors cursor-pointer text-left">Calças</button></li>
+            <li><button onClick={() => navigate('/produtos')} className="hover:text-white transition-colors cursor-pointer text-left">Bonés</button></li>
+            <li><button onClick={() => navigate('/produtos')} className="hover:text-white transition-colors cursor-pointer text-left">Headphones</button></li>
+            <li><button onClick={() => navigate('/produtos')} className="hover:text-white transition-colors cursor-pointer text-left">Tênis</button></li>
           </ul>
         </div>
 
