@@ -9,16 +9,16 @@ export default function HomePage() {
 
   const slides = [
     {
-      tag: 'Melhores ofertas personalizadas',
-      title: 'Queima de Estoque Sneaker 🍂',
-      description: 'Conheça os melhores tênis e streetwear com descontos exclusivos por tempo limitado.',
-      image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80',
+      tag: 'Coleção Exclusiva 2026',
+      title: 'Streetwear & Sneakers 🍂',
+      description: 'As melhores tendências de moda urbana e calçados com design moderno e frete grátis.',
+      image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=700&q=80',
     },
     {
-      tag: 'Lançamentos Exclusivos',
-      title: 'Nova Coleção Urbane',
-      description: 'Estilo, conforto e sofisticação para o seu dia a dia. Aproveite o frete grátis.',
-      image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=600&q=80',
+      tag: 'Lançamentos Especiais',
+      title: 'Estilo e Conforto para o Dia a Dia',
+      description: 'Renove o seu visual com peças selecionadas com alto padrão de qualidade.',
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80',
     },
   ];
 
@@ -30,7 +30,6 @@ export default function HomePage() {
   }, [slides.length]);
 
   useEffect(() => {
-    // Produtos em destaque simulados/carregados
     setProducts([
       {
         id: 1,
@@ -39,7 +38,7 @@ export default function HomePage() {
         price: 299.90,
         priceDiscount: 219.90,
         discountTag: '30% OFF',
-        images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80'],
+        images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80'],
         sizes: ['38', '39', '40', '41', '42'],
         colors: ['#C92071', '#1F1F1F', '#4A90E2']
       },
@@ -50,7 +49,7 @@ export default function HomePage() {
         price: 349.90,
         priceDiscount: 279.90,
         discountTag: '20% OFF',
-        images: ['https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=500&q=80'],
+        images: ['https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80'],
         sizes: ['37', '38', '39', '40'],
         colors: ['#1F1F1F', '#E2E3FF']
       },
@@ -61,7 +60,7 @@ export default function HomePage() {
         price: 159.90,
         priceDiscount: 119.90,
         discountTag: '25% OFF',
-        images: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80'],
+        images: ['https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80'],
         sizes: ['P', 'M', 'G', 'GG'],
         colors: ['#FFFFFF', '#1F1F1F', '#B5B6F2']
       },
@@ -72,7 +71,7 @@ export default function HomePage() {
         price: 499.90,
         priceDiscount: 389.90,
         discountTag: '22% OFF',
-        images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80'],
+        images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80'],
         sizes: ['Único'],
         colors: ['#1F1F1F', '#C92071']
       }
@@ -99,7 +98,7 @@ export default function HomePage() {
                 to="/produtos"
                 className="inline-flex items-center gap-2 bg-[#C92071] hover:bg-[#991956] text-white font-bold px-8 py-3.5 rounded-xl transition-colors shadow-md"
               >
-                Ver Oferta <ArrowRight size={18} />
+                Ver Coleção <ArrowRight size={18} />
               </Link>
             </div>
           </div>
@@ -108,7 +107,7 @@ export default function HomePage() {
             <img
               src={slides[currentSlide].image}
               alt="Banner Destaque"
-              className="max-h-[320px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+              className="max-h-[320px] rounded-2xl object-cover shadow-xl"
             />
           </div>
         </div>
