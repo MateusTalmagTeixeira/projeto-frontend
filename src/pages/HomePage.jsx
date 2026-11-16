@@ -1,162 +1,164 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shirt, Footprints, Headphones, Watch } from 'lucide-react';
-import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
-
-const slides = [
-  {
-    tag: 'Melhores ofertas personalizadas',
-    title: 'Queima de estoque Nike 🔥',
-    desc: 'Aproveite descontos exclusivos em tênis de corrida e streetwear com entrega rápida para todo o Brasil.',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    tag: 'Lançamentos da temporada',
-    title: 'Nova Coleção Streetwear 👟',
-    desc: 'Modelos exclusivos selecionados para unir conforto extremo e estilo urbano.',
-    image: 'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    tag: 'Tecnologia & Áudio',
-    title: 'Som Imersivo Studio Pro 🎧',
-    desc: 'Cancelamento de ruído ativo e design premium para acompanhar sua rotina.',
-    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80',
-  },
-];
+import { ArrowRight, Sparkles, ShieldCheck, Truck, Headphones } from 'lucide-react';
 
 export default function HomePage() {
+  const [products, setProducts] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  const slides = [
+    {
+      tag: 'Melhores ofertas personalizadas',
+      title: 'Queima de Estoque Sneaker 🍂',
+      description: 'Conheça os melhores tênis e streetwear com descontos exclusivos por tempo limitado.',
+      image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80',
+    },
+    {
+      tag: 'Lançamentos Exclusivos',
+      title: 'Nova Coleção Urbane',
+      description: 'Estilo, conforto e sofisticação para o seu dia a dia. Aproveite o frete grátis.',
+      image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=600&q=80',
+    },
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  useEffect(() => {
+    // Produtos em destaque simulados/carregados
+    setProducts([
+      {
+        id: 1,
+        name: 'Tênis Nike Air Max Excee Edição Limitada',
+        category: 'Tênis',
+        price: 299.90,
+        priceDiscount: 219.90,
+        discountTag: '30% OFF',
+        images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80'],
+        sizes: ['38', '39', '40', '41', '42'],
+        colors: ['#C92071', '#1F1F1F', '#4A90E2']
+      },
+      {
+        id: 2,
+        name: 'Sneaker Urban Streetwear Runner',
+        category: 'Tênis',
+        price: 349.90,
+        priceDiscount: 279.90,
+        discountTag: '20% OFF',
+        images: ['https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=500&q=80'],
+        sizes: ['37', '38', '39', '40'],
+        colors: ['#1F1F1F', '#E2E3FF']
+      },
+      {
+        id: 3,
+        name: 'Camiseta Oversized Minimalist Drip',
+        category: 'Camisetas',
+        price: 159.90,
+        priceDiscount: 119.90,
+        discountTag: '25% OFF',
+        images: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80'],
+        sizes: ['P', 'M', 'G', 'GG'],
+        colors: ['#FFFFFF', '#1F1F1F', '#B5B6F2']
+      },
+      {
+        id: 4,
+        name: 'Headphone Gamer & Street Wireless RGB',
+        category: 'Headphones',
+        price: 499.90,
+        priceDiscount: 389.90,
+        discountTag: '22% OFF',
+        images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80'],
+        sizes: ['Único'],
+        colors: ['#1F1F1F', '#C92071']
+      }
+    ]);
+  }, []);
+
   return (
-    <div className="space-y-16">
-      <section className="bg-[#F5F5F5] py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8">
-            <div className="lg:col-span-5 space-y-5 text-center lg:text-left order-2 lg:order-1">
-              <p className="text-[#F6AA1C] font-bold text-sm sm:text-base">{slides[currentSlide].tag}</p>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#1F1F1F] leading-tight">
-                {slides[currentSlide].title}
-              </h1>
-              <p className="text-[#474747] text-sm sm:text-base leading-relaxed">{slides[currentSlide].desc}</p>
-              <div className="pt-2">
-                <Link
-                  to="/produtos"
-                  className="inline-block bg-[#C92071] hover:bg-[#991956] text-white font-semibold text-sm sm:text-base px-10 py-3.5 rounded-lg transition-colors"
-                >
-                  Ver Ofertas
-                </Link>
-              </div>
-            </div>
-            <div className="lg:col-span-7 flex justify-center order-1 lg:order-2">
-              <img
-                src={slides[currentSlide].image}
-                alt={slides[currentSlide].title}
-                className="w-full max-w-lg h-64 sm:h-96 object-contain drop-shadow-xl -rotate-6 transition-all duration-300"
-              />
+    <div className="space-y-12 pb-16">
+      {/* Carrossel / Banner Principal */}
+      <section className="bg-gradient-to-r from-[#F5F5F7] to-[#E8E8ED] py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[380px]">
+          <div className="space-y-4 animate-in fade-in duration-500">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#F6AA1C] uppercase tracking-wider bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+              <Sparkles size={14} /> {slides[currentSlide].tag}
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-[#1F1F1F] leading-tight">
+              {slides[currentSlide].title}
+            </h1>
+            <p className="text-sm sm:text-base text-[#474747]">
+              {slides[currentSlide].description}
+            </p>
+            <div className="pt-2">
+              <Link
+                to="/produtos"
+                className="inline-flex items-center gap-2 bg-[#C92071] hover:bg-[#991956] text-white font-bold px-8 py-3.5 rounded-xl transition-colors shadow-md"
+              >
+                Ver Oferta <ArrowRight size={18} />
+              </Link>
             </div>
           </div>
-          <div className="flex items-center justify-center gap-2.5 mt-8">
-            {slides.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentSlide(idx)}
-                className={`w-3 h-3 rounded-full transition-colors cursor-pointer ${
-                  currentSlide === idx ? 'bg-[#C92071]' : 'bg-[#CCCCCC]'
-                }`}
-                aria-label={`Slide ${idx + 1}`}
-              />
-            ))}
+
+          <div className="flex justify-center">
+            <img
+              src={slides[currentSlide].image}
+              alt="Banner Destaque"
+              className="max-h-[320px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+            />
           </div>
         </div>
-      </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-[#474747]">Coleções em destaque</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { title: 'Novo drop Supreme', cat: 'Camisetas', img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80' },
-            { title: 'Coleção Adidas', cat: 'Tênis', img: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=400&q=80' },
-            { title: 'Novo Beats Bass', cat: 'Headphones', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80' },
-          ].map((col, i) => (
-            <div key={i} className="bg-[#D8E3F2] rounded-lg p-6 flex items-center justify-between overflow-hidden relative min-h-[210px]">
-              <div className="space-y-3 z-10 max-w-[55%]">
-                <span className="inline-block bg-[#E7FF86] text-[#474747] text-xs font-bold px-3 py-1 rounded-full">30% OFF</span>
-                <h3 className="text-2xl font-extrabold text-[#1F1F1F] leading-tight">{col.title}</h3>
-                <Link to={`/produtos?cat=${col.cat}`} className="inline-block bg-[#F5F5F5] hover:bg-white text-[#C92071] font-bold text-sm px-6 py-2.5 rounded-lg transition-colors">
-                  Comprar
-                </Link>
-              </div>
-              <img src={col.img} alt={col.title} className="w-36 h-36 object-contain drop-shadow-md" />
-            </div>
+        {/* Indicadores de Slide */}
+        <div className="flex justify-center gap-2 mt-8">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                currentSlide === idx ? 'w-8 bg-[#C92071]' : 'w-2.5 bg-gray-300'
+              }`}
+              aria-label={`Ir para slide ${idx + 1}`}
+            />
           ))}
         </div>
-
-        <div className="pt-8 space-y-6">
-          <h3 className="text-xl sm:text-2xl font-bold text-[#474747] text-center">Coleções em destaque</h3>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
-            {[
-              { label: 'Camisetas', icon: Shirt },
-              { label: 'Calças', icon: Watch },
-              { label: 'Bonés', icon: Watch },
-              { label: 'Headphones', icon: Headphones },
-              { label: 'Tênis', icon: Footprints },
-            ].map(({ label, icon: Icon }) => (
-              <Link key={label} to={`/produtos?cat=${label}`} className="group flex flex-col items-center gap-3">
-                <div className="w-24 h-24 rounded-full bg-white shadow-xs flex items-center justify-center text-[#8F8F8F] group-hover:text-[#C92071] group-hover:shadow-md transition-all">
-                  <Icon size={40} strokeWidth={1.5} />
-                </div>
-                <span className="text-sm font-bold text-[#474747] group-hover:text-[#C92071]">{label}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
       </section>
 
+      {/* Ícones de Benefícios */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { icon: <Truck className="text-[#C92071]" size={28} />, title: 'Frete Grátis', desc: 'Em compras acima de R$ 199' },
+          { icon: <ShieldCheck className="text-[#C92071]" size={28} />, title: 'Compra Segura', desc: 'Garantia de 100% de reembolso' },
+          { icon: <Sparkles className="text-[#C92071]" size={28} />, title: 'Produtos Originais', desc: 'Importados direto das marcas' },
+          { icon: <Headphones className="text-[#C92071]" size={28} />, title: 'Suporte 24/7', desc: 'Atendimento humanizado rápido' },
+        ].map((item, i) => (
+          <div key={i} className="bg-white p-6 rounded-xl shadow-xs flex items-center gap-4 border border-gray-100">
+            {item.icon}
+            <div>
+              <h4 className="font-bold text-sm text-[#1F1F1F]">{item.title}</h4>
+              <p className="text-xs text-[#8F8F8F]">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* Produtos em Destaque */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#474747]">Produtos em alta</h2>
-          <Link to="/produtos" className="flex items-center gap-2 text-[#C92071] font-medium text-sm sm:text-base hover:underline">
-            Ver todos <ArrowRight size={18} />
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1F1F1F]">Produtos em Destaque</h2>
+          <Link to="/produtos" className="text-sm font-semibold text-[#C92071] hover:underline flex items-center gap-1">
+            Ver todos <ArrowRight size={16} />
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.slice(0, 8).map((product) => (
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-        </div>
-      </section>
-
-      <section className="bg-white py-14 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-10">
-            <div className="lg:col-span-6 flex justify-center">
-              <div className="w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-b from-[#4200FF]/15 to-transparent flex items-center justify-center p-6">
-                <img
-                  src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?auto=format&fit=crop&w=800&q=80"
-                  alt="Air Jordan edição de colecionador"
-                  className="w-full h-full object-contain drop-shadow-xl"
-                />
-              </div>
-            </div>
-            <div className="lg:col-span-6 space-y-5">
-              <p className="text-[#C92071] font-bold text-sm">Oferta especial</p>
-              <h2 className="text-3xl sm:text-5xl font-bold text-[#474747] leading-tight">
-                Air Jordan edição de colecionador
-              </h2>
-              <p className="text-[#474747] text-sm sm:text-base leading-relaxed">
-                Construído com materiais premium, acabamento icônico e amortecimento responsivo. Garanta sua numeração antes que acabe o lote limitado.
-              </p>
-              <div className="pt-2">
-                <Link
-                  to="/produto/2"
-                  className="inline-block bg-[#C92071] hover:bg-[#991956] text-white font-semibold text-sm px-10 py-3.5 rounded-lg transition-colors"
-                >
-                  Ver Oferta
-                </Link>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
     </div>
