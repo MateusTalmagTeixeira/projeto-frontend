@@ -1,4 +1,4 @@
-import { X, Trash2, ShoppingBag } from 'lucide-react';
+import { X, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
@@ -11,10 +11,9 @@ export default function CartDrawer() {
   const formatPrice = (value) =>
     value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-  const handleCheckout = () => {
+  const handleProceedToCheckout = () => {
     setIsCartOpen(false);
-    clearCart();
-    navigate('/checkout/sucesso');
+    navigate('/checkout');
   };
 
   return (
@@ -93,10 +92,10 @@ export default function CartDrawer() {
                 Esvaziar
               </button>
               <button
-                onClick={handleCheckout}
-                className="bg-[#C92071] hover:bg-[#991956] text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors cursor-pointer"
+                onClick={handleProceedToCheckout}
+                className="flex items-center justify-center gap-2 bg-[#C92071] hover:bg-[#991956] text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors cursor-pointer"
               >
-                Finalizar Pedido
+                Finalizar Compra <ArrowRight size={16} />
               </button>
             </div>
           </div>

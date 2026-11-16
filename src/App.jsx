@@ -10,6 +10,7 @@ import ProductViewPage from './pages/ProductViewPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import OrdersPage from './pages/OrdersPage';
+import CheckoutPage from './pages/CheckoutPage';
 import CheckoutSuccessPage from './pages/CheckoutSuccessPage';
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/cadastro" element={<RegisterPage />} />
               <Route path="/pedidos" element={<OrdersPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/checkout/sucesso" element={<CheckoutSuccessPage />} />
             </Routes>
           </main>
