@@ -73,14 +73,12 @@ export default function Header() {
           {/* Ações (Cadastre-se, Entrar, Carrinho) */}
           <div className="flex items-center gap-4 sm:gap-6">
             <Link
-              to="/produtos"
-              className="hidden lg:inline-block text-sm text-[#474747] underline hover:text-[#C92071]"
+              to="/cadastro" className="hidden lg:inline-block text-sm text-[#474747] underline hover:text-[#C92071]"
             >
               Cadastre-se
             </Link>
             <Link
-              to="/produtos"
-              className="hidden sm:inline-block bg-[#C92071] hover:bg-[#991956] text-white font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors"
+              to="/login" className="hidden sm:inline-block bg-[#C92071] hover:bg-[#991956] text-white font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors"
             >
               Entrar
             </Link>
@@ -128,7 +126,7 @@ export default function Header() {
           <NavLink to="/produtos?cat=Tênis" className={navLinkClass}>
             Categorias
           </NavLink>
-          <NavLink to="/produtos?orders=true" className={navLinkClass}>
+          <NavLink to="/pedidos" className={navLinkClass}>
             Meus Pedidos
           </NavLink>
         </nav>
