@@ -3,18 +3,14 @@ import { createContext, useContext, useState } from 'react';
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      name: 'K-Swiss V8 - Masculino',
-      price: 100,
-      quantity: 1,
-      size: '41',
-      color: '#6FEEFF',
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=300&q=80',
-    },
-  ]);
+  const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   const addToCart = (product, size, color) => {
     setCart((prev) => {
@@ -39,6 +35,7 @@ export function CartProvider({ children }) {
         },
       ];
     });
+    showToast(`"${product.name}" foi adicionado ao carrinho!`);
     setIsCartOpen(true);
   };
 
@@ -62,6 +59,7 @@ export function CartProvider({ children }) {
         totalPrice,
         isCartOpen,
         setIsCartOpen,
+        toastMessage,
       }}
     >
       {children}
