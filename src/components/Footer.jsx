@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, CreditCard } from 'lucide-react';
+import { Globe, Share2, MessageCircle, CreditCard } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -18,9 +18,9 @@ export default function Footer() {
             Sua loja referência em sneakers, streetwear e tecnologia com entrega rápida para todo o Brasil. Estilo e inovação em um só lugar.
           </p>
           <div className="flex items-center gap-4 text-gray-300 pt-2">
-            <a href="#facebook" className="hover:text-[#C92071] transition-colors"><Facebook size={18} /></a>
-            <a href="#instagram" className="hover:text-[#C92071] transition-colors"><Instagram size={18} /></a>
-            <a href="#twitter" className="hover:text-[#C92071] transition-colors"><Twitter size={18} /></a>
+            <a href="#social" className="hover:text-[#C92071] transition-colors" title="Rede Social"><Globe size={18} /></a>
+            <a href="#share" className="hover:text-[#C92071] transition-colors" title="Compartilhar"><Share2 size={18} /></a>
+            <a href="#chat" className="hover:text-[#C92071] transition-colors" title="Contato"><MessageCircle size={18} /></a>
           </div>
         </div>
 
