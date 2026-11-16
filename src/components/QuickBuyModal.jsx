@@ -17,7 +17,7 @@ export default function QuickBuyModal({ product, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
-      <div className="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative space-y-6 animate-in fade-in zoom-in duration-200">
+      <div className="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative space-y-6">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-[#C92071] cursor-pointer"
@@ -42,9 +42,9 @@ export default function QuickBuyModal({ product, onClose }) {
 
         {/* Seleção de Tamanho */}
         <div className="space-y-2">
-          <label className="text-xs font-bold text-[#8F8F8F] uppercase">Selecione o Tamanho:</label>
+          <label className="text-xs font-bold text-[#8F8F8F] uppercase">Tamanho:</label>
           <div className="flex flex-wrap gap-2">
-            {product.sizes.map((size) => (
+            {product.sizes?.map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
@@ -62,9 +62,9 @@ export default function QuickBuyModal({ product, onClose }) {
 
         {/* Seleção de Cor */}
         <div className="space-y-2">
-          <label className="text-xs font-bold text-[#8F8F8F] uppercase">Selecione a Cor:</label>
+          <label className="text-xs font-bold text-[#8F8F8F] uppercase">Cor:</label>
           <div className="flex items-center gap-3">
-            {product.colors.map((color) => (
+            {product.colors?.map((color) => (
               <button
                 key={color}
                 onClick={() => setSelectedColor(color)}
@@ -85,7 +85,7 @@ export default function QuickBuyModal({ product, onClose }) {
           onClick={handleAdd}
           className="w-full flex items-center justify-center gap-2 bg-[#C92071] hover:bg-[#991956] text-white font-semibold py-3.5 rounded-xl transition-colors cursor-pointer shadow-md"
         >
-          <ShoppingCart size={18} /> Adicionar ao Carrinho
+          <ShoppingCart size={18} /> Confirmar e Adicionar
         </button>
       </div>
     </div>
