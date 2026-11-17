@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Filter, X } from 'lucide-react';
 import { products } from '../data/products';
@@ -13,6 +13,15 @@ export default function ProductListingPage() {
   const [selectedCategories, setSelectedCategories] = useState(
     initialCat ? [initialCat] : []
   );
+  const [urlSearchParams] = useSearchParams();
+  const urlCategoryParam = urlSearchParams.get("categoria") || urlSearchParams.get("category") || urlSearchParams.get("filter");
+
+  useEffect(() => {
+    if (urlCategoryParam) {
+      setSelectedCategories([urlCategoryParam]);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [urlCategoryParam]);
   const [selectedGenders, setSelectedGenders] = useState([]);
   const [selectedCondition, setSelectedCondition] = useState('');
   const [sortBy, setSortBy] = useState('relevant');
