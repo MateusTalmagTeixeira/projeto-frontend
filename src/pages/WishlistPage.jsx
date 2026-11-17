@@ -43,7 +43,6 @@ export default function WishlistPage() {
     localStorage.setItem('dripstore_wishlist', JSON.stringify(updated));
   };
 
-  // Tela quando NÃO está logado
   if (!user) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -74,7 +73,6 @@ export default function WishlistPage() {
     );
   }
 
-  // Tela quando ESTÁ logado
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -112,6 +110,13 @@ export default function WishlistPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {wishlist.map((product) => {
             const finalPrice = product.priceDiscount || product.price;
+            const productImage =
+              product.image ||
+              product.imageUrl ||
+              product.img ||
+              (Array.isArray(product.images) && product.images[0]) ||
+              'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80';
+
             return (
               <div
                 key={product.id}
@@ -121,7 +126,7 @@ export default function WishlistPage() {
                   <Link to={`/produto/${product.id}`} className="block">
                     <div className="aspect-square bg-[#F9F8FE] rounded-lg p-4 mb-3 flex items-center justify-center">
                       <img
-                        src={product.image}
+                        src={productImage}
                         alt={product.name}
                         className="w-full h-full object-contain"
                       />

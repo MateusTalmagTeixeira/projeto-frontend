@@ -60,6 +60,12 @@ export default function ProductCard({ product }) {
   };
 
   const finalPrice = product.priceDiscount || product.price;
+  const productImage =
+    product.image ||
+    product.imageUrl ||
+    product.img ||
+    (Array.isArray(product.images) && product.images[0]) ||
+    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80';
 
   return (
     <div className="group bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all border border-gray-100 flex flex-col justify-between relative">
@@ -88,8 +94,12 @@ export default function ProductCard({ product }) {
       <Link to={`/produto/${product.id}`} className="block">
         <div className="aspect-square bg-[#F9F8FE] rounded-lg overflow-hidden flex items-center justify-center p-4 mb-4">
           <img
-            src={product.image}
+            src={productImage}
             alt={product.name}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80';
+            }}
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
           />
         </div>
