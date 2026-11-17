@@ -13,10 +13,10 @@ export default function ProductListingPage() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedGender, setSelectedGender] = useState('todos');
+  const [maxPrice, setMaxPrice] = useState(1000);
   const [sortBy, setSortBy] = useState('relevant');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  // Sincroniza categoria da URL com o estado
   useEffect(() => {
     if (categoryParam) {
       setSelectedCategories([categoryParam]);
@@ -42,14 +42,13 @@ export default function ProductListingPage() {
     setSelectedCategories([]);
     setSelectedBrands([]);
     setSelectedGender('todos');
+    setMaxPrice(1000);
     setSearchParams({});
   };
 
-  // Filtragem e Ordenação otimizadas
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Busca por texto (query)
     if (queryFilter) {
       const q = queryFilter.toLowerCase();
       result = result.filter(
@@ -60,17 +59,14 @@ export default function ProductListingPage() {
       );
     }
 
-    // Filtro por categorias
     if (selectedCategories.length > 0) {
       result = result.filter((p) => selectedCategories.includes(p.category));
     }
 
-    // Filtro por marcas
     if (selectedBrands.length > 0) {
       result = result.filter((p) => selectedBrands.includes(p.brand));
     }
 
-    // Filtro por gênero
     if (selectedGender !== 'todos') {
       result = result.filter(
         (p) =>
@@ -78,7 +74,8 @@ export default function ProductListingPage() {
       );
     }
 
-    // Ordenação
+    result = result.filter((p) => (p.priceDiscount || p.price) <= maxPrice);
+
     if (sortBy === 'lowest') {
       result.sort((a, b) => (a.priceDiscount || a.price) - (b.priceDiscount || b.price));
     } else if (sortBy === 'highest') {
@@ -88,11 +85,10 @@ export default function ProductListingPage() {
     }
 
     return result;
-  }, [products, queryFilter, selectedCategories, selectedBrands, selectedGender, sortBy]);
+  }, [products, queryFilter, selectedCategories, selectedBrands, selectedGender, maxPrice, sortBy]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Cabeçalho de Resultados e Ordenação */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-100">
         <div>
           <h1 className="text-2xl font-bold text-[#1F1F1F]">
@@ -104,7 +100,6 @@ export default function ProductListingPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Botão de Filtro Mobile */}
           <button
             type="button"
             onClick={() => setMobileFilterOpen(true)}
@@ -113,7 +108,6 @@ export default function ProductListingPage() {
             <SlidersHorizontal size={16} /> Filtros
           </button>
 
-          {/* Select de Ordenação */}
           <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200 shadow-sm">
             <ArrowUpDown size={16} className="text-gray-400" />
             <span className="text-xs text-gray-400 hidden sm:inline">Ordenar por:</span>
@@ -132,13 +126,12 @@ export default function ProductListingPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Sidebar de Filtros (Desktop) */}
         <aside className="hidden lg:block lg:col-span-1 space-y-6 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-fit">
           <div className="flex items-center justify-between pb-4 border-b border-gray-100">
             <h3 className="font-bold text-[#1F1F1F] flex items-center gap-2">
               <Filter size={18} className="text-[#C92071]" /> Filtrar por
             </h3>
-            {(selectedCategories.length > 0 || selectedBrands.length > 0 || selectedGender !== 'todos' || queryFilter) && (
+            {(selectedCategories.length > 0 || selectedBrands.length > 0 || selectedGender !== 'todos' || maxPrice < 1000 || queryFilter) && (
               <button
                 type="button"
                 onClick={clearFilters}
@@ -149,8 +142,25 @@ export default function ProductListingPage() {
             )}
           </div>
 
-          {/* Categorias */}
+          {/* Faixa de Preço */}
           <div className="space-y-3">
+            <div className="flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-wider">
+              <span>Preço Máximo</span>
+              <span className="text-[#C92071]">R$ {maxPrice}</span>
+            </div>
+            <input
+              type="range"
+              min="100"
+              max="1000"
+              step="50"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              className="w-full accent-[#C92071] cursor-pointer"
+            />
+          </div>
+
+          {/* Categorias */}
+          <div className="space-y-3 pt-4 border-t border-gray-100">
             <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Categorias</h4>
             <div className="space-y-2">
               {categories.map((cat) => (
@@ -205,7 +215,6 @@ export default function ProductListingPage() {
           </div>
         </aside>
 
-        {/* Grid de Produtos / Estado Vazio */}
         <main className="lg:col-span-3">
           {filteredProducts.length === 0 ? (
             <div className="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm space-y-4">
@@ -234,7 +243,6 @@ export default function ProductListingPage() {
         </main>
       </div>
 
-      {/* Drawer de Filtros Mobile */}
       {mobileFilterOpen && (
         <div className="fixed inset-0 z-50 bg-black/50 flex justify-end">
           <div className="w-full max-w-xs bg-white h-full p-6 overflow-y-auto space-y-6 shadow-xl">
@@ -251,8 +259,23 @@ export default function ProductListingPage() {
               </button>
             </div>
 
-            {/* Categorias Mobile */}
             <div className="space-y-3">
+              <div className="flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-wider">
+                <span>Preço Máximo</span>
+                <span className="text-[#C92071]">R$ {maxPrice}</span>
+              </div>
+              <input
+                type="range"
+                min="100"
+                max="1000"
+                step="50"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                className="w-full accent-[#C92071]"
+              />
+            </div>
+
+            <div className="space-y-3 pt-4 border-t border-gray-100">
               <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Categorias</h4>
               <div className="space-y-2">
                 {categories.map((cat) => (
@@ -264,24 +287,6 @@ export default function ProductListingPage() {
                       className="w-4 h-4 rounded text-[#C92071] accent-[#C92071]"
                     />
                     {cat}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Marcas Mobile */}
-            <div className="space-y-3 pt-4 border-t border-gray-100">
-              <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Marcas</h4>
-              <div className="space-y-2">
-                {brands.map((brand) => (
-                  <label key={brand} className="flex items-center gap-3 text-sm text-gray-600 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={selectedBrands.includes(brand)}
-                      onChange={() => handleBrandChange(brand)}
-                      className="w-4 h-4 rounded text-[#C92071] accent-[#C92071]"
-                    />
-                    {brand}
                   </label>
                 ))}
               </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, CreditCard, MapPin, User, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ShieldCheck, CreditCard, MapPin, User, CheckCircle2, AlertCircle, Copy, Check, QrCode } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export default function CheckoutPage() {
@@ -27,8 +27,16 @@ export default function CheckoutPage() {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [copiedPix, setCopiedPix] = useState(false);
 
-  // Máscaras automáticas em tempo real
+  const pixKey = '00020126580014br.gov.bcb.pix0136dripstore-checkout-uuid-9876543215204000053039865802BR5925Drip Store Ltda6009Fortaleza62070503***63041C4B';
+
+  const handleCopyPix = () => {
+    navigator.clipboard.writeText(pixKey);
+    setCopiedPix(true);
+    setTimeout(() => setCopiedPix(false), 3000);
+  };
+
   const handleInputChange = (e) => {
     let { name, value } = e.target;
 
@@ -71,7 +79,6 @@ export default function CheckoutPage() {
   const handleFinishOrder = (e) => {
     e.preventDefault();
 
-    // Validação de campos obrigatórios
     if (!form.name || !form.cpf || !form.cep || !form.address || !form.number) {
       setError('Por favor, preencha todos os campos obrigatórios de endereço e identificação.');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -84,7 +91,6 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Simula salvamento do pedido e sucesso
     const newOrder = {
       id: Math.floor(100000 + Math.random() * 900000),
       date: new Date().toLocaleDateString('pt-BR'),
@@ -147,7 +153,6 @@ export default function CheckoutPage() {
       )}
 
       <form onSubmit={handleFinishOrder} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Formulário de Dados e Endereço */}
         <div className="lg:col-span-2 space-y-6">
           {/* Informações Pessoais */}
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
@@ -330,6 +335,36 @@ export default function CheckoutPage() {
                     placeholder="123"
                     className="w-full bg-[#F9F8FE] border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-[#C92071]"
                   />
+                </div>
+              </div>
+            )}
+
+            {form.paymentMethod === 'pix' && (
+              <div className="pt-4 p-6 bg-[#F9F8FE] rounded-xl border border-gray-200 text-center space-y-4">
+                <div className="w-16 h-16 bg-white rounded-xl shadow-sm flex items-center justify-center mx-auto text-[#C92071]">
+                  <QrCode size={32} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sm text-[#1F1F1F]">Escaneie o QR Code ou copie a chave PIX</h4>
+                  <p className="text-xs text-gray-500 mt-0.5">O pagamento via PIX tem aprovação imediata.</p>
+                </div>
+                <div className="flex items-center gap-2 max-w-md mx-auto bg-white p-2 rounded-lg border border-gray-200">
+                  <input
+                    type="text"
+                    readOnly
+                    value={pixKey}
+                    className="w-full text-xs text-gray-600 bg-transparent outline-none px-2 font-mono truncate"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCopyPix}
+                    className={`shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer ${
+                      copiedPix ? 'bg-green-600 text-white' : 'bg-[#C92071] text-white hover:bg-[#991956]'
+                    }`}
+                  >
+                    {copiedPix ? <Check size={14} /> : <Copy size={14} />}
+                    {copiedPix ? 'Copiado!' : 'Copiar'}
+                  </button>
                 </div>
               </div>
             )}
