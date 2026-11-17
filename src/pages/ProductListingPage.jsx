@@ -1,229 +1,301 @@
-import { useMemo, useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Filter, X } from 'lucide-react';
-import { products } from '../data/products';
+import { useState, useEffect, useMemo } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { Filter, SlidersHorizontal, ArrowUpDown, X, ShoppingBag } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import { products as initialProducts } from '../data/products';
 
 export default function ProductListingPage() {
-  const [searchParams] = useSearchParams();
-  const initialCat = searchParams.get('cat') || '';
-  const queryFilter = searchParams.get('filter') || '';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryFilter = searchParams.get('q') || '';
+  const categoryParam = searchParams.get('categoria') || searchParams.get('category') || searchParams.get('filter');
 
+  const [products] = useState(initialProducts);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState(
-    initialCat ? [initialCat] : []
-  );
-  const [urlSearchParams] = useSearchParams();
-  const urlCategoryParam = urlSearchParams.get("categoria") || urlSearchParams.get("category") || urlSearchParams.get("filter");
-
-  useEffect(() => {
-    if (urlCategoryParam) {
-      setSelectedCategories([urlCategoryParam]);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [urlCategoryParam]);
-  const [selectedGenders, setSelectedGenders] = useState([]);
-  const [selectedCondition, setSelectedCondition] = useState('');
+  const [selectedGender, setSelectedGender] = useState('todos');
   const [sortBy, setSortBy] = useState('relevant');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
-  const toggleItem = (list, setList, value) => {
-    setList((prev) =>
-      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+  // Sincroniza categoria da URL com o estado
+  useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategories([categoryParam]);
+    }
+  }, [categoryParam]);
+
+  const categories = ['Tênis', 'Camisetas', 'Calças', 'Bonés', 'Headphones'];
+  const brands = ['Nike', 'Adidas', 'Puma', 'K-Swiss', 'Balenciaga'];
+
+  const handleCategoryChange = (cat) => {
+    setSelectedCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
     );
   };
 
+  const handleBrandChange = (brand) => {
+    setSelectedBrands((prev) =>
+      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
+    );
+  };
+
+  const clearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedBrands([]);
+    setSelectedGender('todos');
+    setSearchParams({});
+  };
+
+  // Filtragem e Ordenação otimizadas
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
+    // Busca por texto (query)
     if (queryFilter) {
       const q = queryFilter.toLowerCase();
       result = result.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          p.brand.toLowerCase().includes(q)
+          (p.category && p.category.toLowerCase().includes(q)) ||
+          (p.brand && p.brand.toLowerCase().includes(q))
       );
     }
 
-    if (selectedBrands.length > 0) {
-      result = result.filter((p) => selectedBrands.includes(p.brand));
-    }
-
+    // Filtro por categorias
     if (selectedCategories.length > 0) {
       result = result.filter((p) => selectedCategories.includes(p.category));
     }
 
-    if (selectedGenders.length > 0) {
-      result = result.filter((p) => selectedGenders.includes(p.gender));
+    // Filtro por marcas
+    if (selectedBrands.length > 0) {
+      result = result.filter((p) => selectedBrands.includes(p.brand));
     }
 
-    if (selectedCondition) {
-      result = result.filter((p) => p.condition === selectedCondition);
+    // Filtro por gênero
+    if (selectedGender !== 'todos') {
+      result = result.filter(
+        (p) =>
+          p.gender && p.gender.toLowerCase() === selectedGender.toLowerCase()
+      );
     }
 
-    if (sortBy === 'price-asc') {
+    // Ordenação
+    if (sortBy === 'lowest') {
       result.sort((a, b) => (a.priceDiscount || a.price) - (b.priceDiscount || b.price));
-    } else if (sortBy === 'price-desc') {
+    } else if (sortBy === 'highest') {
       result.sort((a, b) => (b.priceDiscount || b.price) - (a.priceDiscount || a.price));
+    } else if (sortBy === 'name') {
+      result.sort((a, b) => a.name.localeCompare(b.name));
     }
 
     return result;
-  }, [queryFilter, selectedBrands, selectedCategories, selectedGenders, selectedCondition, sortBy]);
-
-  const FilterContent = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between border-b border-gray-200 pb-4">
-        <h3 className="font-bold text-base text-[#474747]">Filtrar por</h3>
-        <button
-          onClick={() => {
-            setSelectedBrands([]);
-            setSelectedCategories([]);
-            setSelectedGenders([]);
-            setSelectedCondition('');
-          }}
-          className="text-xs text-[#C92071] hover:underline cursor-pointer"
-        >
-          Limpar
-        </button>
-      </div>
-
-      {/* Marca */}
-      <div className="space-y-2.5">
-        <h4 className="font-bold text-sm text-[#474747]">Marca</h4>
-        {['Adidas', 'Balenciaga', 'K-Swiss', 'Nike', 'Puma', 'Beats'].map((brand) => (
-          <label key={brand} className="flex items-center gap-2.5 text-sm text-[#474747] cursor-pointer">
-            <input
-              type="checkbox"
-              checked={selectedBrands.includes(brand)}
-              onChange={() => toggleItem(selectedBrands, setSelectedBrands, brand)}
-              className="w-4 h-4 accent-[#C92071] rounded"
-            />
-            {brand}
-          </label>
-        ))}
-      </div>
-
-      {/* Categoria */}
-      <div className="space-y-2.5">
-        <h4 className="font-bold text-sm text-[#474747]">Categoria</h4>
-        {['Tênis', 'Camisetas', 'Calças', 'Bonés', 'Headphones'].map((cat) => (
-          <label key={cat} className="flex items-center gap-2.5 text-sm text-[#474747] cursor-pointer">
-            <input
-              type="checkbox"
-              checked={selectedCategories.includes(cat)}
-              onChange={() => toggleItem(selectedCategories, setSelectedCategories, cat)}
-              className="w-4 h-4 accent-[#C92071] rounded"
-            />
-            {cat}
-          </label>
-        ))}
-      </div>
-
-      {/* Gênero */}
-      <div className="space-y-2.5">
-        <h4 className="font-bold text-sm text-[#474747]">Gênero</h4>
-        {['Masculino', 'Feminino', 'Unissex'].map((gender) => (
-          <label key={gender} className="flex items-center gap-2.5 text-sm text-[#474747] cursor-pointer">
-            <input
-              type="checkbox"
-              checked={selectedGenders.includes(gender)}
-              onChange={() => toggleItem(selectedGenders, setSelectedGenders, gender)}
-              className="w-4 h-4 accent-[#C92071] rounded"
-            />
-            {gender}
-          </label>
-        ))}
-      </div>
-
-      {/* Estado */}
-      <div className="space-y-2.5">
-        <h4 className="font-bold text-sm text-[#474747]">Estado</h4>
-        {['Novo', 'Usado'].map((cond) => (
-          <label key={cond} className="flex items-center gap-2.5 text-sm text-[#474747] cursor-pointer">
-            <input
-              type="radio"
-              name="condition"
-              checked={selectedCondition === cond}
-              onChange={() => setSelectedCondition(cond)}
-              className="w-4 h-4 accent-[#C92071]"
-            />
-            {cond}
-          </label>
-        ))}
-      </div>
-    </div>
-  );
+  }, [products, queryFilter, selectedCategories, selectedBrands, selectedGender, sortBy]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-      {/* Topo: Resultados + Ordenar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <p className="text-sm sm:text-base text-[#474747]">
-          <strong className="text-[#1F1F1F]">
-            Resultados {queryFilter ? `para “${queryFilter}”` : ''}
-          </strong>{' '}
-          – {filteredProducts.length} produtos
-        </p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      {/* Cabeçalho de Resultados e Ordenação */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-100">
+        <div>
+          <h1 className="text-2xl font-bold text-[#1F1F1F]">
+            {queryFilter ? `Resultados para "${queryFilter}"` : 'Catálogo de Produtos'}
+          </h1>
+          <p className="text-sm text-gray-500 mt-0.5">
+            Mostrando <span className="font-bold text-[#1F1F1F]">{filteredProducts.length}</span> produtos disponíveis
+          </p>
+        </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 border border-[#474747]/40 rounded-md px-3 py-2.5 bg-white text-sm">
-            <span className="font-bold text-[#474747]">Ordenar por:</span>
+          {/* Botão de Filtro Mobile */}
+          <button
+            type="button"
+            onClick={() => setMobileFilterOpen(true)}
+            className="md:hidden inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-lg border border-gray-200 text-sm font-semibold text-[#1F1F1F] shadow-sm cursor-pointer"
+          >
+            <SlidersHorizontal size={16} /> Filtros
+          </button>
+
+          {/* Select de Ordenação */}
+          <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200 shadow-sm">
+            <ArrowUpDown size={16} className="text-gray-400" />
+            <span className="text-xs text-gray-400 hidden sm:inline">Ordenar por:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-transparent text-[#474747] focus:outline-none cursor-pointer"
+              className="text-sm font-semibold text-[#1F1F1F] bg-transparent outline-none cursor-pointer"
             >
-              <option value="relevant">mais relevantes</option>
-              <option value="price-asc">menor preço</option>
-              <option value="price-desc">maior preço</option>
+              <option value="relevant">Mais relevantes</option>
+              <option value="lowest">Menor preço</option>
+              <option value="highest">Maior preço</option>
+              <option value="name">Nome (A-Z)</option>
             </select>
           </div>
-
-          <button
-            onClick={() => setMobileFilterOpen(true)}
-            className="lg:hidden bg-[#C92071] text-white p-3 rounded-md"
-            aria-label="Abrir filtros"
-          >
-            <Filter size={20} />
-          </button>
         </div>
       </div>
 
-      {/* Conteúdo: Sidebar + Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <aside className="hidden lg:block lg:col-span-3 bg-white p-6 rounded-md shadow-xs">
-          <FilterContent />
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Sidebar de Filtros (Desktop) */}
+        <aside className="hidden lg:block lg:col-span-1 space-y-6 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-fit">
+          <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+            <h3 className="font-bold text-[#1F1F1F] flex items-center gap-2">
+              <Filter size={18} className="text-[#C92071]" /> Filtrar por
+            </h3>
+            {(selectedCategories.length > 0 || selectedBrands.length > 0 || selectedGender !== 'todos' || queryFilter) && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="text-xs text-[#C92071] font-bold hover:underline cursor-pointer"
+              >
+                Limpar filtros
+              </button>
+            )}
+          </div>
+
+          {/* Categorias */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Categorias</h4>
+            <div className="space-y-2">
+              {categories.map((cat) => (
+                <label key={cat} className="flex items-center gap-3 text-sm text-gray-600 cursor-pointer hover:text-[#1F1F1F]">
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.includes(cat)}
+                    onChange={() => handleCategoryChange(cat)}
+                    className="w-4 h-4 rounded text-[#C92071] focus:ring-[#C92071] accent-[#C92071] cursor-pointer"
+                  />
+                  {cat}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Marcas */}
+          <div className="space-y-3 pt-4 border-t border-gray-100">
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Marcas</h4>
+            <div className="space-y-2">
+              {brands.map((brand) => (
+                <label key={brand} className="flex items-center gap-3 text-sm text-gray-600 cursor-pointer hover:text-[#1F1F1F]">
+                  <input
+                    type="checkbox"
+                    checked={selectedBrands.includes(brand)}
+                    onChange={() => handleBrandChange(brand)}
+                    className="w-4 h-4 rounded text-[#C92071] focus:ring-[#C92071] accent-[#C92071] cursor-pointer"
+                  />
+                  {brand}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Gênero */}
+          <div className="space-y-3 pt-4 border-t border-gray-100">
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Gênero</h4>
+            <div className="space-y-2">
+              {['todos', 'Masculino', 'Feminino', 'Unissex'].map((g) => (
+                <label key={g} className="flex items-center gap-3 text-sm text-gray-600 cursor-pointer hover:text-[#1F1F1F]">
+                  <input
+                    type="radio"
+                    name="genderFilter"
+                    checked={selectedGender.toLowerCase() === g.toLowerCase()}
+                    onChange={() => setSelectedGender(g)}
+                    className="w-4 h-4 text-[#C92071] focus:ring-[#C92071] accent-[#C92071] cursor-pointer"
+                  />
+                  {g === 'todos' ? 'Todos' : g}
+                </label>
+              ))}
+            </div>
+          </div>
         </aside>
 
-        <div className="lg:col-span-9">
+        {/* Grid de Produtos / Estado Vazio */}
+        <main className="lg:col-span-3">
           {filteredProducts.length === 0 ? (
-            <div className="bg-white rounded-md p-12 text-center space-y-3">
-              <p className="text-lg font-bold text-[#1F1F1F]">Nenhum produto encontrado</p>
-              <p className="text-sm text-[#8F8F8F]">
-                Tente remover alguns filtros ou pesquisar por outro termo.
+            <div className="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm space-y-4">
+              <div className="w-16 h-16 bg-[#F9F8FE] text-gray-400 rounded-full flex items-center justify-center mx-auto">
+                <ShoppingBag size={28} />
+              </div>
+              <h3 className="text-lg font-bold text-[#1F1F1F]">Nenhum produto encontrado</h3>
+              <p className="text-sm text-gray-500 max-w-sm mx-auto">
+                Não encontramos itens correspondentes aos filtros selecionados. Tente limpar os filtros para ver mais opções.
               </p>
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="mt-2 bg-[#C92071] hover:bg-[#991956] text-white text-sm font-bold px-6 py-3 rounded-lg transition-colors cursor-pointer"
+              >
+                Limpar todos os filtros
+              </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
           )}
-        </div>
+        </main>
       </div>
 
-      {/* Drawer de Filtro Mobile */}
+      {/* Drawer de Filtros Mobile */}
       {mobileFilterOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex">
-          <div className="bg-white w-80 max-w-full h-full p-6 overflow-y-auto">
-            <div className="flex justify-end mb-2">
-              <button onClick={() => setMobileFilterOpen(false)} className="text-[#474747]">
-                <X size={22} />
+        <div className="fixed inset-0 z-50 bg-black/50 flex justify-end">
+          <div className="w-full max-w-xs bg-white h-full p-6 overflow-y-auto space-y-6 shadow-xl">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+              <h3 className="font-bold text-[#1F1F1F] flex items-center gap-2">
+                <Filter size={18} className="text-[#C92071]" /> Filtrar produtos
+              </h3>
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="p-2 text-gray-400 hover:text-[#1F1F1F] cursor-pointer"
+              >
+                <X size={20} />
               </button>
             </div>
-            <FilterContent />
+
+            {/* Categorias Mobile */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Categorias</h4>
+              <div className="space-y-2">
+                {categories.map((cat) => (
+                  <label key={cat} className="flex items-center gap-3 text-sm text-gray-600 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedCategories.includes(cat)}
+                      onChange={() => handleCategoryChange(cat)}
+                      className="w-4 h-4 rounded text-[#C92071] accent-[#C92071]"
+                    />
+                    {cat}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Marcas Mobile */}
+            <div className="space-y-3 pt-4 border-t border-gray-100">
+              <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Marcas</h4>
+              <div className="space-y-2">
+                {brands.map((brand) => (
+                  <label key={brand} className="flex items-center gap-3 text-sm text-gray-600 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedBrands.includes(brand)}
+                      onChange={() => handleBrandChange(brand)}
+                      className="w-4 h-4 rounded text-[#C92071] accent-[#C92071]"
+                    />
+                    {brand}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-6">
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="w-full bg-[#C92071] text-white font-bold py-3 rounded-lg text-sm"
+              >
+                Aplicar filtros
+              </button>
+            </div>
           </div>
         </div>
       )}
