@@ -3,10 +3,34 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
+const CATEGORY_FALLBACKS = {
+  Tênis: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80',
+  Headphones: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80',
+  Camisetas: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=600&q=80',
+  Calças: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80',
+  Bonés: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80',
+};
+
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [isWishlisted, setIsWishlisted] = useState(false);
+
+  const fallbackImg =
+    CATEGORY_FALLBACKS[product.category] ||
+    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80';
+
+  const initialImg =
+    (Array.isArray(product.images) && product.images[0]) ||
+    product.image ||
+    product.imageUrl ||
+    fallbackImg;
+
+  const [imgSrc, setImgSrc] = useState(initialImg);
+
+  useEffect(() => {
+    setImgSrc(initialImg);
+  }, [initialImg]);
 
   const isLoggedIn = () => {
     return Boolean(
@@ -48,7 +72,7 @@ export default function ProductCard({ product }) {
         updated = saved.filter((item) => item.id !== product.id);
         setIsWishlisted(false);
       } else {
-        updated = [...saved, product];
+        updated = [...saved, { ...product, image: imgSrc }];
         setIsWishlisted(true);
       }
 
@@ -60,12 +84,7 @@ export default function ProductCard({ product }) {
   };
 
   const finalPrice = product.priceDiscount || product.price;
-  const productImage =
-    product.image ||
-    product.imageUrl ||
-    product.img ||
-    (Array.isArray(product.images) && product.images[0]) ||
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80';
+  const badgeText = product.discountTag || (product.discount ? `${product.discount}% OFF` : null);
 
   return (
     <div className="group bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all border border-gray-100 flex flex-col justify-between relative">
@@ -84,23 +103,24 @@ export default function ProductCard({ product }) {
       </button>
 
       {/* Badge de Desconto */}
-      {product.discount && (
+      {badgeText && (
         <span className="absolute top-6 left-6 z-10 bg-[#E7FF86] text-[#1F1F1F] text-[11px] font-extrabold px-2.5 py-1 rounded-full uppercase">
-          {product.discount}% OFF
+          {badgeText}
         </span>
       )}
 
       {/* Imagem e Link para Detalhes */}
       <Link to={`/produto/${product.id}`} className="block">
-        <div className="aspect-square bg-[#F9F8FE] rounded-lg overflow-hidden flex items-center justify-center p-4 mb-4">
+        <div className="aspect-square bg-[#F9F8FE] rounded-lg overflow-hidden flex items-center justify-center p-3 mb-4">
           <img
-            src={productImage}
+            src={imgSrc}
             alt={product.name}
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80';
+            onError={() => {
+              if (imgSrc !== fallbackImg) {
+                setImgSrc(fallbackImg);
+              }
             }}
-            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover rounded-md group-hover:scale-105 transition-transform duration-300"
           />
         </div>
 
@@ -127,7 +147,7 @@ export default function ProductCard({ product }) {
 
         <button
           type="button"
-          onClick={() => addToCart(product)}
+          onClick={() => addToCart({ ...product, image: imgSrc })}
           title="Adicionar ao carrinho"
           className="p-2.5 rounded-lg bg-[#F9F8FE] text-[#C92071] hover:bg-[#C92071] hover:text-white transition-colors cursor-pointer"
         >
