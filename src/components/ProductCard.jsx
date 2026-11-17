@@ -20,10 +20,11 @@ export default function ProductCard({ product }) {
   // Define tamanhos e cores com base na categoria
   const isSneaker = product.category === 'Tênis';
   const isHeadphone = product.category === 'Headphones';
+  const isCap = product.category === 'Bonés';
 
   const availableSizes = isSneaker
     ? ['38', '39', '40', '41', '42']
-    : isHeadphone
+    : isHeadphone || isCap
     ? ['Tamanho Único']
     : ['P', 'M', 'G', 'GG'];
 
@@ -32,6 +33,12 @@ export default function ProductCard({ product }) {
         { name: 'Preto Fosco', class: 'bg-neutral-900 border-gray-300' },
         { name: 'Prata Metálico', class: 'bg-gray-300 border-gray-400' },
         { name: 'Branco Minimalista', class: 'bg-white border-gray-300' },
+      ]
+    : isCap
+    ? [
+        { name: 'Preto Clássico', class: 'bg-black border-gray-300' },
+        { name: 'Azul Marinho', class: 'bg-blue-900 border-blue-950' },
+        { name: 'Verde Militar', class: 'bg-emerald-800 border-emerald-900' },
       ]
     : [
         { name: 'Preto', class: 'bg-black border-gray-300' },
@@ -234,7 +241,7 @@ export default function ProductCard({ product }) {
               {/* Escolha de Tamanho / Formato */}
               <div>
                 <label className="block text-xs font-bold text-[#1F1F1F] uppercase tracking-wider mb-2">
-                  {isHeadphone ? 'Especificação:' : 'Tamanho:'}{' '}
+                  {isHeadphone ? 'Especificação:' : isCap ? 'Modelo / Ajuste:' : 'Tamanho:'}{' '}
                   <span className="text-[#C92071]">{selectedSize}</span>
                 </label>
                 <div className="flex flex-wrap gap-2">
