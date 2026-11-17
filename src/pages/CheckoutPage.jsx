@@ -4,7 +4,11 @@ import { ShieldCheck, CreditCard, MapPin, User, CheckCircle2, AlertCircle, Copy,
 import { useCart } from '../context/CartContext';
 
 export default function CheckoutPage() {
-  const { cartItems, clearCart, cartTotal } = useCart();
+  const cartContext = useCart() || {};
+  const cartItems = cartContext.cartItems || [];
+  const clearCart = cartContext.clearCart || (() => {});
+  const cartTotal = cartContext.cartTotal || 0;
+  
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
