@@ -41,11 +41,11 @@ export default function Footer() {
         <div className="md:col-span-2 space-y-3">
           <h4 className="font-bold text-sm uppercase tracking-wider text-white">Categorias</h4>
           <ul className="space-y-2.5 text-xs text-gray-400">
-            <li><Link to="/produtos" className="hover:text-white transition-colors block py-0.5">Camisetas</Link></li>
-            <li><Link to="/produtos" className="hover:text-white transition-colors block py-0.5">Calças</Link></li>
-            <li><Link to="/produtos" className="hover:text-white transition-colors block py-0.5">Bonés</Link></li>
-            <li><Link to="/produtos" className="hover:text-white transition-colors block py-0.5">Headphones</Link></li>
-            <li><Link to="/produtos" className="hover:text-white transition-colors block py-0.5">Tênis</Link></li>
+            <li><Link to="/produtos?categoria=Camisetas" className="hover:text-white transition-colors block py-0.5">Camisetas</Link></li>
+            <li><Link to="/produtos?categoria=Cal%C3%A7as" className="hover:text-white transition-colors block py-0.5">Calças</Link></li>
+            <li><Link to="/produtos?categoria=Bon%C3%A9s" className="hover:text-white transition-colors block py-0.5">Bonés</Link></li>
+            <li><Link to="/produtos?categoria=Headphones" className="hover:text-white transition-colors block py-0.5">Headphones</Link></li>
+            <li><Link to="/produtos?categoria=T%C3%AAnis" className="hover:text-white transition-colors block py-0.5">Tênis</Link></li>
           </ul>
         </div>
 

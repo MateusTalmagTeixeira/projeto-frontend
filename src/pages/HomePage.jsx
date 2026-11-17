@@ -97,7 +97,7 @@ export default function HomePage() {
             </p>
             <div className="pt-2">
               <Link
-                to="/produtos"
+                to="/produtos?categoria=Headphones"
                 className="inline-flex items-center gap-2 bg-[#C92071] hover:bg-[#991956] text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg text-sm uppercase tracking-wider"
               >
                 Ver Coleção <ArrowRight size={18} />
