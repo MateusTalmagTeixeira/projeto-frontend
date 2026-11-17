@@ -17,16 +17,29 @@ export default function ProductCard({ product }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [quickBuyOpen, setQuickBuyOpen] = useState(false);
 
-  // Opções padrão baseadas na categoria
+  // Define tamanhos e cores com base na categoria
   const isSneaker = product.category === 'Tênis';
-  const availableSizes = isSneaker ? ['38', '39', '40', '41', '42'] : ['P', 'M', 'G', 'GG'];
-  const availableColors = [
-    { name: 'Preto', class: 'bg-black border-gray-300' },
-    { name: 'Branco', class: 'bg-white border-gray-300' },
-    { name: 'Rosa Drip', class: 'bg-[#C92071] border-[#C92071]' },
-  ];
+  const isHeadphone = product.category === 'Headphones';
 
-  const [selectedSize, setSelectedSize] = useState(availableSizes[1]);
+  const availableSizes = isSneaker
+    ? ['38', '39', '40', '41', '42']
+    : isHeadphone
+    ? ['Tamanho Único']
+    : ['P', 'M', 'G', 'GG'];
+
+  const availableColors = isHeadphone
+    ? [
+        { name: 'Preto Fosco', class: 'bg-neutral-900 border-gray-300' },
+        { name: 'Prata Metálico', class: 'bg-gray-300 border-gray-400' },
+        { name: 'Branco Minimalista', class: 'bg-white border-gray-300' },
+      ]
+    : [
+        { name: 'Preto', class: 'bg-black border-gray-300' },
+        { name: 'Branco', class: 'bg-white border-gray-300' },
+        { name: 'Rosa Drip', class: 'bg-[#C92071] border-[#C92071]' },
+      ];
+
+  const [selectedSize, setSelectedSize] = useState(availableSizes[0]);
   const [selectedColor, setSelectedColor] = useState(availableColors[0].name);
 
   const fallbackImg =
@@ -179,7 +192,7 @@ export default function ProductCard({ product }) {
               e.stopPropagation();
               setQuickBuyOpen(true);
             }}
-            title="Escolher tamanho e cor"
+            title="Escolher opção"
             className="p-2.5 rounded-lg bg-[#F9F8FE] text-[#C92071] hover:bg-[#C92071] hover:text-white transition-colors cursor-pointer"
           >
             <ShoppingBag size={18} />
@@ -187,7 +200,7 @@ export default function ProductCard({ product }) {
         </div>
       </div>
 
-      {/* MODAL QUICK BUY (Escolha de Tamanho e Cor) */}
+      {/* MODAL QUICK BUY (Escolha de Tamanho/Modelo e Cor) */}
       {quickBuyOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div 
@@ -218,10 +231,11 @@ export default function ProductCard({ product }) {
             </div>
 
             <div className="space-y-5">
-              {/* Escolha de Tamanho */}
+              {/* Escolha de Tamanho / Formato */}
               <div>
                 <label className="block text-xs font-bold text-[#1F1F1F] uppercase tracking-wider mb-2">
-                  Tamanho: <span className="text-[#C92071]">{selectedSize}</span>
+                  {isHeadphone ? 'Especificação:' : 'Tamanho:'}{' '}
+                  <span className="text-[#C92071]">{selectedSize}</span>
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {availableSizes.map((size) => (
@@ -229,7 +243,7 @@ export default function ProductCard({ product }) {
                       key={size}
                       type="button"
                       onClick={() => setSelectedSize(size)}
-                      className={`w-11 h-11 rounded-lg font-bold text-sm transition-all cursor-pointer flex items-center justify-center border ${
+                      className={`h-11 px-4 rounded-lg font-bold text-sm transition-all cursor-pointer flex items-center justify-center border ${
                         selectedSize === size
                           ? 'border-[#C92071] bg-[#C92071] text-white shadow-sm'
                           : 'border-gray-200 bg-white text-[#1F1F1F] hover:border-gray-400'
@@ -244,7 +258,7 @@ export default function ProductCard({ product }) {
               {/* Escolha de Cor */}
               <div>
                 <label className="block text-xs font-bold text-[#1F1F1F] uppercase tracking-wider mb-2">
-                  Cor: <span className="text-[#C92071]">{selectedColor}</span>
+                  Cor / Acabamento: <span className="text-[#C92071]">{selectedColor}</span>
                 </label>
                 <div className="flex items-center gap-3">
                   {availableColors.map((color) => (
@@ -258,7 +272,7 @@ export default function ProductCard({ product }) {
                       }`}
                     >
                       {selectedColor === color.name && (
-                        <Check size={14} className={color.name === 'Branco' ? 'text-black' : 'text-white'} />
+                        <Check size={14} className={color.name.includes('Branco') || color.name.includes('Prata') ? 'text-black' : 'text-white'} />
                       )}
                     </button>
                   ))}
