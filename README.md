@@ -2,9 +2,11 @@
 
 <div align="center">
 
-| **Status** | **Deploy** | **Stack** | **Build** |
-| :---: | :---: | :---: | :---: |
-| 🟢 `Em Produción` | [🔗 Aceder à Vercel](https://projeto-frontend-kappa.vercel.app) | React 18 + Vite | SPA Router |
+[![Deploy Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://projeto-frontend-kappa.vercel.app)
+[![React](https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-Bundler-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/)
+[![CSS3](https://img.shields.io/badge/CSS3-Modules-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/)
 
 </div>
 
