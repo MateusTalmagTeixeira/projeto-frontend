@@ -1,10 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Header from "./components/Header";
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import ProductListingPage from './pages/ProductListingPage';
-import ProductDetailsPage from './pages/ProductDetailsPage';
-import CartPage from './pages/CartPage';
+import ProductViewPage from "./pages/ProductViewPage";
 import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import WishlistPage from './pages/WishlistPage';
