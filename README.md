@@ -47,3 +47,15 @@ npm run dev
 
 ## 👥 Autoria
 Desenvolvido em dupla para entrega acadêmica.
+
+---
+
+## 🌐 Deploy & Ambiente de Produção
+
+A aplicação está publicada e disponível para acesso online:
+* **Link de Produção (Vercel):** [Acessar Digital Store](https://projeto-frontend-kappa.vercel.app)
+
+## 👥 Colaboração
+
+* **Desenvolvimento Front-End & UX:** Larissa Talmag
+* **Code Review & Integração Full-Stack:** Mateus Talmag
