@@ -18,7 +18,7 @@ export default function App() {
     <CartProvider>
       <BrowserRouter>
         <div className="min-h-screen flex flex-col bg-[#F9F8FE]">
-          <Navbar />
+          <Header />
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<HomePage />} />
