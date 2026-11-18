@@ -1,34 +1,46 @@
-# Drip Store / Digital Store 🛍️
+# Drip Store — Plataforma E-Commerce Full-Stack
 
 <div align="center">
 
-[![Deploy Vercel](https://img.shields.io/badge/Deploy-Vercel-success?style=for-the-badge&logo=vercel)](https://projeto-frontend-kappa.vercel.app)
-[![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-Bundler-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+```yaml
+Status: Em Produção (Stable)
+Architecture: Client-Side SPA (Single Page Application)
+Build Engine: Vite + Rolldown
+Hosting: Vercel Edge Network
+```
+
+[**Ver Demonstração ao Vivo**](https://projeto-frontend-kappa.vercel.app) &bull; [Reportar Bug](https://github.com/lariissantoz/projeto-frontend/issues)
 
 </div>
 
-Plataforma de e-commerce moderna desenvolvida com arquitetura baseada em componentes reutilizáveis, gestão de rotas dinâmicas e integração com API de produtos.
+---
+
+## 📋 Sobre o Projeto
+
+O **Drip Store** é uma aplicação web de comércio eletrónico desenvolvida com foco em performance, componentização modular e experiência de utilizador (UX). O sistema integra gestão de rotas do lado do cliente, catálogo dinâmico de produtos, carrinho de compras interativo e tratamento de estado otimizado.
 
 ---
 
-## 🚀 Live Demo
-* **Acesso em Produção:** [projeto-frontend-kappa.vercel.app](https://projeto-frontend-kappa.vercel.app)
+## 🛠️ Stack Tecnológica & Arquitetura
+
+O projeto foi construído utilizando tecnologias modernas do ecossistema JavaScript/React, priorizando boas práticas de desenvolvimento front-end:
+
+* **Core & UI:** `React`, `JavaScript (ES6+)`, `JSX`
+* **Gestão de Rotas:** `React Router DOM` (com configuração de SPA rewrites para produção)
+* **Empacotador (Bundler):** `Vite`
+* **Estilização:** CSS Modular / Componentes Responsivos
+* **Controlo de Versões & Deploy:** Git, GitHub & Vercel CI/CD
 
 ---
 
-## 🛠️ Stack Tecnológica
-* **Core:** React, JavaScript (ES6+)
-* **Routing:** React Router DOM
-* **Build Tool:** Vite / Rolldown
-* **Styling & UI:** CSS Modules / Tailwind / Componentes personalizados
-* **Deploy & Infraestrutura:** Vercel (com configuração de SPA Rewrites)
+## ⚙️ Configuração e Execução Local
 
----
+Para executar este projeto no teu ambiente de desenvolvimento local, segue os passos abaixo:
 
-## 📦 Como Executar o Projeto Localmente
+### Pré-requisitos
+Certifica-te de que tens o [Node.js](https://nodejs.org/) (versão 18 ou superior) instalado na tua máquina.
 
-Certifica-te de que tens o [Node.js](https://nodejs.org/) instalado na tua máquina.
+### Passos de Instalação
 
 ```bash
 # 1. Clona o repositório
@@ -37,17 +49,19 @@ git clone https://github.com/lariissantoz/projeto-frontend.git
 # 2. Navega para o diretório do projeto
 cd projeto-frontend
 
-# 3. Instala as dependências
+# 3. Instala as dependências do projeto
 npm install
 
-# 4. Inicia o servidor de desenvolvimento (Vite)
+# 4. Inicia o servidor de desenvolvimento local
 npm run dev
 ```
 
 ---
 
-## 👥 Autoria & Contribuição
-Desenvolvido em co-autoria por **Larissa Talmag** e **Mateus Talmag**, com atuação transversal em todo o ciclo de vida do projeto:
-* **Arquitetura Front-End & Componentização:** Larissa Talmag & Mateus Talmag
-* **Integração de APIs, Rotas & Optimização de Build:** Larissa Talmag & Mateus Talmag
-* **UX/UI & Code Review:** Larissa Talmag & Mateus Talmag
+## 👥 Autoria & Engenharia
+
+Desenvolvido em co-autoria por **Larissa Talmag** e **Mateus Talmag**, com participação ativa e transversal em todas as etapas do ciclo de vida do software:
+
+* **Arquitetura de Software & Componentização:** Larissa Talmag & Mateus Talmag
+* **Desenvolvimento Front-End & UX/UI:** Larissa Talmag & Mateus Talmag
+* **Integração, Gestão de Build & DevOps (Vercel):** Larissa Talmag & Mateus Talmag
