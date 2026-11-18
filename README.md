@@ -1,15 +1,10 @@
-# Drip Store — Plataforma E-Commerce Full-Stack
+# Drip Store 🛍️ • E-Commerce Platform
 
 <div align="center">
 
-```yaml
-Status: Em Produção (Stable)
-Architecture: Client-Side SPA (Single Page Application)
-Build Engine: Vite + Rolldown
-Hosting: Vercel Edge Network
-```
-
-[**Ver Demonstração ao Vivo**](https://projeto-frontend-kappa.vercel.app) &bull; [Reportar Bug](https://github.com/lariissantoz/projeto-frontend/issues)
+| **Status** | **Deploy** | **Stack** | **Build** |
+| :---: | :---: | :---: | :---: |
+| 🟢 `Em Produción` | [🔗 Aceder à Vercel](https://projeto-frontend-kappa.vercel.app) | React 18 + Vite | SPA Router |
 
 </div>
 
