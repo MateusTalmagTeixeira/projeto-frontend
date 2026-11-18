@@ -59,3 +59,7 @@ A aplicação está publicada e disponível para acesso online:
 
 * **Desenvolvimento Front-End & UX:** Larissa Talmag
 * **Code Review & Integração Full-Stack:** Mateus Talmag
+
+
+## 👥 Equipa de Desenvolvimento
+- **Larissa Talmag & Mateus Talmag:** Desenvolvimento Full-Stack, UX/UI, Arquitetura, Code Review e Integração.
