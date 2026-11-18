@@ -12,6 +12,11 @@
 
 ---
 
+## 🌐 Live Demo
+* **Acesso em Produção:** [https://projeto-frontend-kappa.vercel.app/](https://projeto-frontend-kappa.vercel.app/)
+
+---
+
 ## 📋 Sobre o Projeto
 
 O **Drip Store** é uma aplicação web de comércio eletrónico desenvolvida com foco em performance, componentização modular e experiência de utilizador (UX). O sistema integra gestão de rotas do lado do cliente, catálogo dinâmico de produtos, carrinho de compras interativo e tratamento de estado otimizado.
