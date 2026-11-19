@@ -67,3 +67,5 @@ Desenvolvido em co-autoria por **Larissa Talmag** e **Mateus Talmag**, com parti
 * **Arquitetura de Software & Componentização:** Larissa Talmag & Mateus Talmag
 * **Desenvolvimento Front-End & UX/UI:** Larissa Talmag & Mateus Talmag
 * **Integração, Gestão de Build & DevOps (Vercel):** Larissa Talmag & Mateus Talmag
+
+- **Revisão & Manutenção Contínua:** Validado por Mateus Talmag.
